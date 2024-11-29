@@ -3,7 +3,7 @@
 This project is part of the **Research Track 1** course and aims to create a ROS package, named assignment1_rt, that includes 2 nodes: a ui node and a distance node.
 
 ## How to Run:
-1. ** Clone the repository to your workspace**:
+1. **Clone the repository to your workspace**:
 
 ```bash
 cd ~/workspace/src
