@@ -10,7 +10,7 @@ cd ~/workspace/src
 git clone https://github.com/luisa38/assignment1_rt.git
 ```
 
-2. ** Build the package**:
+2. **Build the package**:
 
 ```bash
 cd ~/workspace
@@ -18,13 +18,13 @@ catkin_make
 source devel/setup.bash
 ```
 
-3. ** Launch turtlesim**:
+3. **Launch turtlesim**:
 
 ```bash
 rosrun turtlesim turtlesim_node
 ```
 
-4. ** Run the 2 nodes**:
+4. **Run the 2 nodes**:
 
 ```bash
 rosrun assignment1_rt ui_node.py
@@ -118,6 +118,7 @@ if (isOutOfBounds(x2, y2_turtle)) {
 
 ### Limits defined
 
-**Distance Threshold**: `1.5`
+**Distance Threshold**: `1.5`.
+
 **Boundary Limits**: `x` and `y` must stay within `[1.0, 10.0]`.
  
