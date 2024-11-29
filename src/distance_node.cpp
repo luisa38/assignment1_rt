@@ -4,17 +4,17 @@
 #include "std_msgs/Float32.h"
 #include <cmath>
 
-// definir os limites
+// define limits
 #define X_MAX 10.0
 #define Y_MAX 10.0
 #define X_MIN 1.0
 #define Y_MIN 1.0
-// dist. tartarugas
+// dist. turtles
 #define DISTANCE_THRESHOLD 1.5 
 
 double x1, y1_turtle, theta1, x2, y2_turtle, theta2;
 
-// posição da turtle1
+// position turtle1
 void turtle1PoseCallback(const turtlesim::Pose::ConstPtr& msg) {
     x1 = msg->x;
     y1_turtle = msg->y;
@@ -22,7 +22,7 @@ void turtle1PoseCallback(const turtlesim::Pose::ConstPtr& msg) {
     ROS_INFO("Turtle1 position: [%f, %f, %f]", x1, y1_turtle, theta1);
 }
 
-// posição da turtle2
+// position turtle2
 void turtle2PoseCallback(const turtlesim::Pose::ConstPtr& msg) {
     x2 = msg->x;
     y2_turtle = msg->y;
@@ -30,19 +30,19 @@ void turtle2PoseCallback(const turtlesim::Pose::ConstPtr& msg) {
     ROS_INFO("Turtle2 position: [%f, %f, %f]", x2, y2_turtle, theta2);
 }
 
-// distância entre as tartarugas
+// distance between turtles
 double calculateDistance() {
     double dx = x1 - x2;
     double dy = y1_turtle - y2_turtle;
     return sqrt(dx * dx + dy * dy);
 }
 
-// ver se uma tartaruga está fora dos limites
+// see if a turtle is outside bounderies
 bool isOutOfBounds(double x, double y) {
     return (x < X_MIN || x > X_MAX || y < Y_MIN || y > Y_MAX);
 }
 
-//parar tartaruga
+//stop tartaruga
 void stopTurtle(ros::Publisher& pub) {
     geometry_msgs::Twist stop_msg;
     pub.publish(stop_msg); 
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     while (ros::ok()) {
         ros::spinOnce();
         
-        //distância entre as tartarugas
+        //distance between turtles
         double distance = calculateDistance();
         std_msgs::Float32 distance_msg;
         distance_msg.data = distance;
@@ -73,21 +73,21 @@ int main(int argc, char** argv) {
 
         ROS_INFO("Distance between turtles: %f", distance);
 
-        //verificar se as tartarugas estão muito próximas
+        //verify if turtles are too close
         if (distance < DISTANCE_THRESHOLD) {
             ROS_WARN("Turtles too close! Stopping turtle.");
             stopTurtle(turtle2_pub);
             stopTurtle(turtle1_pub);
         }
 
-        //verificar se alguma tartaruga está fora dos limites
+        //verify if some turtle is outside bounderies
         if (isOutOfBounds(x1, y1_turtle)) {
             ROS_WARN("Turtle1 is out of bounds. Stopping.");
-            stopTurtle(turtle1_pub);  // Parar turtle1
+            stopTurtle(turtle1_pub);  // stop turtle1
         }
         if (isOutOfBounds(x2, y2_turtle)) {
             ROS_WARN("Turtle2 is out of bounds. Stopping.");
-            stopTurtle(turtle2_pub);  // Parar turtle2
+            stopTurtle(turtle2_pub);  // stop turtle2
         }
 
         rate.sleep();

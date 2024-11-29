@@ -9,23 +9,21 @@ def ui_node():
     
     rospy.init_node('ui_node', anonymous=True)
 
-    #pub para as 2 tartarugas
     pub_turtle1 = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     pub_turtle2 = rospy.Publisher('/turtle2/cmd_vel', Twist, queue_size=10)
 
-    #criação da 2ª tartaruga
     rospy.wait_for_service('/spawn')
     try:
         spawn_service = rospy.ServiceProxy('/spawn', Spawn)
         spawn_service(1.0, 1.0, 0.0, "turtle2")
-        rospy.loginfo("Turtle2 criada com sucesso!")
+        #rospy.loginfo("Turtle2 criated with success!")
     except rospy.ServiceException as e:
     #ver pq não apareceeeeeee
-        rospy.logerr(f"Erro ao criar turtle2: {e}")
+        #rospy.logerr(f"Error criating turtle2: {e}")
         return
 
     while not rospy.is_shutdown():
-        #pedir tartaruga
+        #asked turtle
         print("\nSelect the turtle to control:")
         print("1 - Turtle1")
         print("2 - Turtle2")
@@ -35,7 +33,7 @@ def ui_node():
             print("Invalid Option! Try again.")
             continue
 
-        #pedir as velocidades 
+        #ask for velocities 
         try:
             linear_vel = float(input("Insert linear velocity: "))
             angular_vel = float(input("Insert angular velocity: "))
@@ -43,12 +41,12 @@ def ui_node():
             print("Invalid! Try again.")
             continue
 
-        #criar as velocidades
+        #create velocities
         vel = Twist()
         vel.linear.x = linear_vel
         vel.angular.z = angular_vel
 
-        #enviar comandos para a tartaruga selecionada
+        #send commands to the chosen turtle
         if choice == '1':
             pub_turtle1.publish(vel)
         else:
@@ -58,7 +56,7 @@ def ui_node():
         #mexe 1 segundo
         rospy.sleep(1)
 
-        #parar a tartaruga
+        #stop turtle
         vel.linear.x = 0
         vel.angular.z = 0
         if choice == '1':
