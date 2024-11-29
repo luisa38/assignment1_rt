@@ -16,10 +16,10 @@ def ui_node():
     try:
         spawn_service = rospy.ServiceProxy('/spawn', Spawn)
         spawn_service(1.0, 1.0, 0.0, "turtle2")
-        #rospy.loginfo("Turtle2 criated with success!")
+        rospy.loginfo("Turtle2 criated with success!")
     except rospy.ServiceException as e:
     #ver pq não apareceeeeeee
-        #rospy.logerr(f"Error criating turtle2: {e}")
+        rospy.logerr(f"Error criating turtle2: {e}")
         return
 
     while not rospy.is_shutdown():
